@@ -2,473 +2,1231 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Menú Rockstar</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Metal+Mania&family=Bangers&display=swap" rel="stylesheet">
+  <title>Menu Rockstar Café</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Bangers', cursive;
       margin: 0;
-      background: url('images/rockstar-bg.jpg') repeat center center fixed;
+      font-family: 'Rock Salt', cursive;
+      background: url("images/bg-rockstar.jpg") no-repeat center center fixed;
       background-size: cover;
       color: #fff;
-      position: relative;
     }
-    body::before {
-      content: "";
+    header {
+      background: rgba(0,0,0,0.9);
+      padding: 1rem;
+      text-align: center;
+      font-size: 2rem;
+      letter-spacing: 2px;
+      color: #ff0044;
+      text-shadow: 2px 2px #000;
+    }
+    #search {
+      display: block;
+      width: 90%;
+      margin: 1rem auto;
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: none;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+    section {
+      padding: 1rem;
+    }
+    section h2 {
+      color: #ff0044;
+      text-transform: uppercase;
+      border-bottom: 2px solid #ff0044;
+      padding-bottom: 0.3rem;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px,1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .card {
+      background: rgba(0,0,0,0.8);
+      border-radius: 10px;
+      overflow: hidden;
+      text-align: center;
+      cursor: pointer;
+    }
+    .card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+    }
+    .card h3 {
+      margin: 0.5rem;
+    }
+    /* Modal */
+    .modal {
+      display: none;
       position: fixed;
       inset: 0;
-      background: url('images/watermark.png') center center no-repeat;
-      background-size: 400px;
-      opacity: 0.08;
-      z-index: 0;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
     }
-    h1 {
-      text-align: center;
-      padding: 20px;
-      background: rgba(0,0,0,0.7);
-      margin: 0;
-      font-size: 40px;
-      font-family: 'Metal Mania', cursive;
-      text-shadow: 2px 2px #ff0000;
-      position: relative;
-      z-index: 1;
+    .modal-content {
+      background: #111;
+      padding: 1rem;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      color: #fff;
+      overflow-y: auto;
+      max-height: 90vh;
     }
-    .search-box {
-      text-align: center;
-      padding: 15px;
-      position: relative;
-      z-index: 1;
+    .modal-content h2 {
+      margin-top: 0;
+      color: #ff0044;
     }
-    .search-box input {
-      width: 80%;
-      padding: 10px;
-      font-size: 18px;
-      border-radius: 8px;
-      border: none;
+    .close {
+      float: right;
+      cursor: pointer;
+      font-size: 1.2rem;
     }
-    .menu-section {
-      padding: 20px;
-      position: relative;
-      z-index: 1;
+    label.disabled-label {
+      color: #777;
+      text-decoration: line-through;
     }
-    .menu-section h2 {
-      margin-bottom: 10px;
-      background: rgba(0,0,0,0.5);
-      display: inline-block;
-      padding: 5px 12px;
-      border-radius: 8px;
-      font-family: 'Metal Mania', cursive;
-    }
-    .drink-card {
-      text-align: center;
-      background: rgba(0,0,0,0.7);
-      border-radius: 12px;
-      padding: 10px;
-      box-shadow: 0 2px 6px rgba(255,0,0,0.4);
-    }
-    .drink-card img {
-      width: 150px;
-      height: 150px;
-      object-fit: cover;
-      border-radius: 12px;
-    }
-    .drink-card h3 { margin: 10px 0 5px; font-size: 16px; }
-    .drink-card p { margin: 0; font-weight: bold; color: #ffdd57; }
-    .unavailable { opacity: 0.5; pointer-events: none; }
-    /* Modal */
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.8); justify-content: center; align-items: center; z-index: 999; }
-    .modal-content { background: #111; color: #fff; padding: 20px; border-radius: 10px; max-width: 320px; text-align: center; }
-    .modal-content img { width: 200px; margin-bottom: 15px; border-radius: 12px; }
-    .close-btn { background: #ff0000; color: #fff; border: none; padding: 10px; border-radius: 6px; cursor: pointer; margin: 5px; font-family: 'Bangers'; }
-    .disabled-label { color: gray; text-decoration: line-through; }
   </style>
 </head>
 <body>
-
-  <h1>Menú Rockstar 🤘</h1>
-
-  <!-- Buscador -->
-  <div class="search-box">
-    <input type="text" id="searchInput" placeholder="¿Qué se te antoja hoy? (ej: dulce, frío, frutal)" onkeyup="buscarBebidas()">
-  </div>
-
-  <!-- Carrusel de recomendaciones -->
-  <div id="recomendaciones"></div>
-
-  <!-- Contenedor de menú -->
-  <div id="menu-container"></div>
+  <header>Menu Rockstar Café</header>
+  <input id="search" type="text" placeholder="Buscar (ej: dulce, matcha, frío)...">
+  <div id="menu"></div>
 
   <!-- Modal -->
-  <div id="drinkModal" class="modal">
+  <div class="modal" id="modal">
     <div class="modal-content">
-      <img id="modalImage" src="" alt="">
+      <span class="close" id="modalClose">&times;</span>
       <h2 id="modalTitle"></h2>
+      <img id="modalImg" style="width:100%; border-radius:8px;">
       <p id="modalDesc"></p>
-
-      <h3>Tamaños</h3>
       <div id="modalSizes"></div>
-
-      <h3>Leche</h3>
       <div id="modalMilks"></div>
-
-      <h3>Modalidad</h3>
       <div id="modalModes"></div>
-
-      <h3>Toppings</h3>
       <div id="modalToppings"></div>
-
-      <button class="close-btn" onclick="closeModal()">Cerrar</button>
     </div>
   </div>
 
-  <!-- Swiper -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
   <script>
-    // 🔹 Aquí se definen todas las familias (Coffee, Milky Moo, etc.)
+    // ⚡ Ejemplo corto de datos (luego metemos todas las familias)
     const menuData = {
-      const menuData = {
-  "Coffee": [
-    { name: "Black Ice", desc: "Café frío con boba y helado.", img: "images/coffee1.jpg", tags:["frío","dulce"],
-      sizes:[{name:"Chico",price:85,available:true},{name:"Mediano",price:105,available:true},{name:"Grande",price:120,available:true}],
-      milks:[{name:"Entera",available:true},{name:"Deslactosada",available:true},{name:"Soya",available:true},{name:"Almendra",available:false}],
-      modes:[{name:"Fría",available:true},{name:"Caliente",available:false},{name:"Frappe",available:false},{name:"Con Tapioca",available:true},{name:"Con Crema",available:true}],
-      toppings:[{name:"Boba",price:10,available:true},{name:"Queso Crema",price:15,available:true}], available:true },
-    { name: "Espresso", desc: "Espresso fuerte y aromático.", img: "images/coffee2.jpg", tags:["amargo","caliente","fuerte"],
-      sizes:[{name:"Chico",price:70,available:true},{name:"Mediano",price:90,available:true},{name:"Grande",price:110,available:true}],
-      milks:[{name:"Entera",available:true},{name:"Deslactosada",available:true},{name:"Soya",available:true},{name:"Almendra",available:true}],
-      modes:[{name:"Fría",available:false},{name:"Caliente",available:true},{name:"Frappe",available:false},{name:"Con Tapioca",available:false},{name:"Con Crema",available:false}],
-      toppings:[], available:true },
-    { name: "Cappuccino", desc: "Café con espuma de leche.", img: "images/coffee3.jpg", tags:["cremoso","caliente"],
-      sizes:[{name:"Chico",price:85,available:true},{name:"Mediano",price:100,available:true},{name:"Grande",price:120,available:true}],
-      milks:[{name:"Entera",available:true},{name:"Deslactosada",available:true},{name:"Soya",available:true},{name:"Almendra",available:true}],
-      modes:[{name:"Fría",available:false},{name:"Caliente",available:true},{name:"Frappe",available:false},{name:"Con Tapioca",available:false},{name:"Con Crema",available:true}],
-      toppings:[{name:"Canela",price:5,available:true}], available:true },
-    { name: "Latte", desc: "Café con leche al vapor.", img: "images/coffee4.jpg", tags:["suave","caliente"],
-      sizes:[{name:"Chico",price:85,available:true},{name:"Mediano",price:100,available:true},{name:"Grande",price:120,available:true}],
-      milks:[{name:"Entera",available:true},{name:"Deslactosada",available:true},{name:"Soya",available:true},{name:"Almendra",available:true}],
-      modes:[{name:"Fría",available:true},{name:"Caliente",available:true},{name:"Frappe",available:false},{name:"Con Tapioca",available:false},{name:"Con Crema",available:true}],
-      toppings:[{name:"Jarabe Vainilla",price:10,available:true}], available:true },
-    { name: "Americano", desc: "Café clásico suave.", img: "images/coffee5.jpg", tags:["clásico","caliente"],
-      sizes:[{name:"Chico",price:75,available:true},{name:"Mediano",price:90,available:true},{name:"Grande",price:105,available:true}],
-      milks:[{name:"Entera",available:true},{name:"Deslactosada",available:true},{name:"Soya",available:true},{name:"Almendra",available:true}],
-      modes:[{name:"Fría",available:true},{name:"Caliente",available:true},{name:"Frappe",available:false},{name:"Con Tapioca",available:false},{name:"Con Crema",available:false}],
-      toppings:[], available:true }
-  ],
-
-  "Milky Moo": [
-    { name: "Strawberry Milk", desc: "Leche con fresas frescas.", img: "images/milky1.jpg", tags:["dulce","frutal"],
-      sizes:[{name:"Chico",price:90,available:true},{name:"Mediano",price:105,available:true},{name:"Grande",price:120,available:true}],
-      milks:[{name:"Entera",available:true},{name:"Deslactosada",available:true},{name:"Soya",available:true},{name:"Almendra",available:true}],
-      modes:[{name:"Fría",available:true},{name:"Caliente",available:false},{name:"Frappe",available:true},{name:"Con Tapioca",available:true},{name:"Con Crema",available:true}],
-      toppings:[{name:"Boba",price:10,available:true},{name:"Jelly",price:10,available:true}], available:true },
-    { name: "Mango Milk", desc: "Leche cremosa con mango.", img: "images/milky2.jpg", tags:["dulce","frutal"],
-      sizes:[{name:"Chico",price:90,available:true},{name:"Mediano",price:105,available:true},{name:"Grande",price:120,available:true}],
-      milks:[{name:"Entera",available:true},{name:"Deslactosada",available:true},{name:"Soya",available:true},{name:"Almendra",available:true}],
-      modes:[{name:"Fría",available:true},{name:"Caliente",available:false},{name:"Frappe",available:true},{name:"Con Tapioca",available:true},{name:"Con Crema",available:true}],
-      toppings:[{name:"Queso Crema",price:15,available:true}], available:true },
-    { name: "Banana Milk", desc: "Leche con plátano natural.", img: "images/milky3.jpg", tags:["dulce","frutal"],
-      sizes:[{name:"Chico",price:90,available:true},{name:"Mediano",price:105,available:true},{name:"Grande",price:120,available:true}],
-      milks:[{name:"Entera",available:true},{name:"Deslactosada",available:true},{name:"Soya",available:true},{name:"Almendra",available:true}],
-      modes:[{name:"Fría",available:true},{name:"Caliente",available:false},{name:"Frappe",available:true},{name:"Con Tapioca",available:false},{name:"Con Crema",available:true}],
-      toppings:[], available:true },
-    { name: "Choco Milk", desc: "Leche sabor chocolate.", img: "images/milky4.jpg", tags:["dulce","clásico"],
-      sizes:[{name:"Chico",price:85,available:true},{name:"Mediano",price:100,available:true},{name:"Grande",price:115,available:true}],
-      milks:[{name:"Entera",available:true},{name:"Deslactosada",available:true},{name:"Soya",available:true},{name:"Almendra",available:true}],
-      modes:[{name:"Fría",available:true},{name:"Caliente",available:true},{name:"Frappe",available:true},{name:"Con Tapioca",available:true},{name:"Con Crema",available:true}],
-      toppings:[], available:true },
-    { name: "Vanilla Milk", desc: "Leche sabor vainilla.", img: "images/milky5.jpg", tags:["dulce","clásico"],
-      sizes:[{name:"Chico",price:85,available:true},{name:"Mediano",price:100,available:true},{name:"Grande",price:115,available:true}],
-      milks:[{name:"Entera",available:true},{name:"Deslactosada",available:true},{name:"Soya",available:true},{name:"Almendra",available:true}],
-      modes:[{name:"Fría",available:true},{name:"Caliente",available:true},{name:"Frappe",available:true},{name:"Con Tapioca",available:false},{name:"Con Crema",available:true}],
-      toppings:[], available:true }
-  ],
-
-  "Matcha Lover": [
-    { name: "Matcha Ice", desc: "Té verde matcha con leche.", img: "images/matcha1.jpg", tags:["matcha","frío","refrescante"],
-      sizes:[{name:"Chico",price:95,available:true},{name:"Mediano",price:110,available:true},{name:"Grande",price:130,available:true}],
-      milks:[{name:"Entera",available:true},{name:"Deslactosada",available:true},{name:"Soya",available:true},{name:"Almendra",available:true}],
-      modes:[{name:"Fría",available:true},{name:"Caliente",available:false},{name:"Frappe",available:true},{name:"Con Tapioca",available:true},{name:"Con Crema",available:true}],
-      toppings:[{name:"Boba",price:10,available:true}], available:true },
-    { name: "Matcha Latte", desc: "Matcha con leche al vapor.", img: "images/matcha2.jpg", tags:["matcha","caliente","cremoso"],
-      sizes:[{name:"Chico",price:95,available:true},{name:"Mediano",price:110,available:true},{name:"Grande",price:130,available:true}],
-      milks:[{name:"Entera",available:true},{name:"Deslactosada",available:true},{name:"Soya",available:true},{name:"Almendra",available:true}],
-      modes:[{name:"Fría",available:true},{name:"Caliente",available:true},{name:"Frappe",available:false},{name:"Con Tapioca",available:false},{name:"Con Crema",available:true}],
-      toppings:[{name:"Queso Crema",price:15,available:true}], available:true },
-    { name: "Matcha Frappé", desc: "Matcha batido helado.", img: "images/matcha3.jpg", tags:["matcha","dulce","frío"],
-      sizes:[{name:"Chico",price:100,available:true},{name:"Mediano",price:120,available:true},{name:"Grande",price:140,available:true}],
-      milks:[{name:"Entera",available:true},{name:"Deslactosada",available:true},{name:"Soya",available:true},{name:"Almendra",available:true}],
-      modes:[{name:"Fría",available:true},{name:"Caliente",available:false},{name:"Frappe",available:true},{name:"Con Tapioca",available:false},{name:"Con Crema",available:true}],
-      toppings:[], available:true },
-    { name: "Matcha Deluxe", desc: "Matcha premium con leche.", img: "images/matcha4.jpg", tags:["matcha","especial"],
-      sizes:[{name:"Chico",price:110,available:true},{name:"Mediano",price:125,available:true},{name:"Grande",price:145,available:true}],
-      milks:[{name:"Entera",available:true},{name:"Deslactosada",available:true},{name:"Soya",available:true},{name:"Almendra",available:true}],
-      modes:[{name:"Fría",available:true},{name:"Caliente",available:true},{name:"Frappe",available:true},{name:"Con Tapioca",available:false},{name:"Con Crema",available:true}],
-      toppings:[], available:true },
-    { name: "Matcha Cream", desc: "Matcha con crema batida.", img: "images/matcha5.jpg", tags:["matcha","dulce","cremoso"],
-      sizes:[{name:"Chico",price:105,available:true},{name:"Mediano",price:120,available:true},{name:"Grande",price:140,available:true}],
-      milks:[{name:"Entera",available:true},{name:"Deslactosada",available:true},{name:"Soya",available:true},{name:"Almendra",available:true}],
-      modes:[{name:"Fría",available:true},{name:"Caliente",available:true},{name:"Frappe",available:true},{name:"Con Tapioca",available:false},{name:"Con Crema",available:true}],
-      toppings:[], available:true }
-  ],
-
-  "Milk Tea": [
-    { name: "Classic Milk Tea", desc: "Té negro con leche y tapioca.", img: "images/milktea1.jpg", tags:["clásico","dulce"],
-      sizes:[{name:"Chico",price:85,available:true},{name:"Mediano",price:95,available:true},{name:"Grande",price:115,available:true}],
-      milks:[{name:"Entera",available:true},{name:"Deslactosada",available:true},{name:"Soya",available:true},{name:"Almendra",available:true}],
-      modes:[{name:"Fría",available:true},{name:"Caliente",available:true},{name:"Frappe",available:false},{name:"Con Tapioca",available:true},{name:"Con Crema",available:true}],
-      toppings:[{name:"Boba",price:10,available:true},{name:"Jelly",price:10,available:true}], available:true },
-    { name: "Thai Milk Tea", desc: "Té tailandés dulce.", img: "images/milktea2.jpg", tags:["dulce","exótico"],
-      sizes:[{name:"Chico",price:90,available:true},{name:"Mediano",price:100,available:true},{name:"Grande",price:120,available:true}],
-      milks:[{name:"Entera",available:true},{name:"Deslactosada",available:true},{name:"Soya",available:true},{name:"Almendra",available:true}],
-      modes:[{name:"Fría",available:true},{name:"Caliente",available:true},{name:"Frappe",available:true},{name:"Con Tapioca",available:false},{name:"Con Crema",available:true}],
-      toppings:[], available:true },
-    { name: "Taro Milk Tea", desc: "Té con taro morado.", img: "images/milktea3.jpg", tags:["dulce","exótico"],
-      sizes:[{name:"Chico",price:95,available:true},{name:"Mediano",price:110,available:true},{name:"Grande",price:130,available:true}],
-      milks:[{name:"Entera",available:true},{name:"Deslactosada",available:true},{name:"Soya",available:true},{name:"Almendra",available:true}],
-      modes:[{name:"Fría",available:true},{name:"Caliente",available:true},{name:"Frappe",available:true},{name:"Con Tapioca",available:true},{name:"Con Crema",available:true}],
-      toppings:[{name:"Boba",price:10,available:true}], available:true },
-    { name: "Honey Milk Tea", desc: "Té con miel natural.", img: "images/milktea4.jpg", tags:["dulce","natural"],
-      sizes:[{name:"Chico",price:90,available:true},{name:"Mediano",price:105,available:true},{name:"Grande",price:125,available:true}],
-      milks:[{name:"Entera",available:true},{name:"Deslactosada",available:true},{name:"Soya",available:true},{name:"Almendra",available:true}],
-      modes:[{name:"Fría",available:true},{name:"Caliente",available:true},{name:"Frappe",available:false},{name:"Con Tapioca",available:false},{name:"Con Crema",available:true}],
-      toppings:[], available:true },
-    { name: "Cocoa Milk Tea", desc: "Té con leche sabor cacao.", img: "images/milktea5.jpg", tags:["dulce","clásico"],
-      sizes:[{name:"Chico",price:95,available:true},{name:"Mediano",price:110,available:true},{name:"Grande",price:130,available:true}],
-      milks:[{name:"Entera",available:true},{name:"Deslactosada",available:true},{name:"Soya",available:true},{name:"Almendra",available:true}],
-      modes:[{name:"Fría",available:true},{name:"Caliente",available:true},{name:"Frappe",available:false},{name:"Con Tapioca",available:false},{name:"Con Crema",available:true}],
-      toppings:[], available:true }
-  ],
-
-  "Snow Shake": [
-    { name: "Vanilla Shake", desc: "Smoothie helado de vainilla.", img: "images/snow1.jpg", tags:["dulce","frío"],
-      sizes:[{name:"Chico",price:100,available:true},{name:"Mediano",price:120,available:true},{name:"Grande",price:140,available:true}],
-      milks:[], modes:[{name:"Fría",available:true},{name:"Caliente",available:false},{name:"Frappe",available:true},{name:"Con Tapioca",available:false},{name:"Con Crema",available:true}],
-      toppings:[], available:true },
-    { name: "Chocolate Shake", desc: "Smoothie de chocolate.", img: "images/snow2.jpg", tags:["dulce","frío"],
-      sizes:[{name:"Chico",price:100,available:true},{name:"Mediano",price:120,available:true},{name:"Grande",price:140,available:true}],
-      milks:[], modes:[{name:"Fría",available:true},{name:"Caliente",available:false},{name:"Frappe",available:true},{name:"Con Tapioca",available:false},{name:"Con Crema",available:true}],
-      toppings:[{name:"Nata",price:10,available:true}], available:true },
-    { name: "Strawberry Shake", desc: "Smoothie de fresa.", img: "images/snow3.jpg", tags:["dulce","frutal","frío"],
-      sizes:[{name:"Chico",price:100,available:true},{name:"Mediano",price:120,available:true},{name:"Grande",price:140,available:true}],
-      milks:[], modes:[{name:"Fría",available:true},{name:"Caliente",available:false},{name:"Frappe",available:true},{name:"Con Tapioca",available:false},{name:"Con Crema",available:true}],
-      toppings:[], available:true },
-    { name: "Oreo Shake", desc: "Smoothie con galletas Oreo.", img: "images/snow4.jpg", tags:["dulce","golosina"],
-      sizes:[{name:"Chico",price:105,available:true},{name:"Mediano",price:125,available:true},{name:"Grande",price:145,available:true}],
-      milks:[], modes:[{name:"Fría",available:true},{name:"Caliente",available:false},{name:"Frappe",available:true},{name:"Con Tapioca",available:false},{name:"Con Crema",available:true}],
-      toppings:[{name:"Galleta Oreo extra",price:15,available:true}], available:true },
-    { name: "Caramel Shake", desc: "Smoothie sabor caramelo.", img: "images/snow5.jpg", tags:["dulce","frío"],
-      sizes:[{name:"Chico",price:100,available:true},{name:"Mediano",price:120,available:true},{name:"Grande",price:140,available:true}],
-      milks:[], modes:[{name:"Fría",available:true},{name:"Caliente",available:false},{name:"Frappe",available:true},{name:"Con Tapioca",available:false},{name:"Con Crema",available:true}],
-      toppings:[], available:true }
-  ],
-
-  "Rockstar": [
-    { name: "Energy Mix", desc: "Bebida energética frutal.", img: "images/rock1.jpg", tags:["energético","frutal"],
-      sizes:[{name:"Chico",price:95,available:true},{name:"Mediano",price:110,available:true},{name:"Grande",price:125,available:true}],
-      milks:[], modes:[{name:"Fría",available:true},{name:"Caliente",available:false},{name:"Frappe",available:false},{name:"Con Tapioca",available:false},{name:"Con Crema",available:false}],
-      toppings:[], available:true },
-    { name: "Blue Energy", desc: "Energético azul.", img: "images/rock2.jpg", tags:["energético","dulce"],
-      sizes:[{name:"Chico",price:95,available:true},{name:"Mediano",price:110,available:true},{name:"Grande",price:125,available:true}],
-      milks:[], modes:[{name:"Fría",available:true},{name:"Caliente",available:false},{name:"Frappe",available:false},{name:"Con Tapioca",available:false},{name:"Con Crema",available:false}],
-      toppings:[], available:true },
-    { name: "Red Energy", desc: "Energético rojo.", img: "images/rock3.jpg", tags:["energético","dulce"],
-      sizes:[{name:"Chico",price:95,available:true},{name:"Mediano",price:110,available:true},{name:"Grande",price:125,available:true}],
-      milks:[], modes:[{name:"Fría",available:true},{name:"Caliente",available:false},{name:"Frappe",available:false},{name:"Con Tapioca",available:false},{name:"Con Crema",available:false}],
-      toppings:[], available:true },
-    { name: "Green Energy", desc: "Energético verde.", img: "images/rock4.jpg", tags:["energético","frutal"],
-      sizes:[{name:"Chico",price:95,available:true},{name:"Mediano",price:110,available:true},{name:"Grande",price:125,available:true}],
-      milks:[], modes:[{name:"Fría",available:true},{name:"Caliente",available:false},{name:"Frappe",available:false},{name:"Con Tapioca",available:false},{name:"Con Crema",available:false}],
-      toppings:[], available:true },
-    { name: "Yellow Energy", desc: "Energético amarillo.", img: "images/rock5.jpg", tags:["energético","exótico"],
-      sizes:[{name:"Chico",price:95,available:true},{name:"Mediano",price:110,available:true},{name:"Grande",price:125,available:true}],
-      milks:[], modes:[{name:"Fría",available:true},{name:"Caliente",available:false},{name:"Frappe",available:false},{name:"Con Tapioca",available:false},{name:"Con Crema",available:false}],
-      toppings:[], available:true }
-  ],
-
-  "Fruit Tea": [
-    { name: "Peach Tea", desc: "Té negro con durazno.", img: "images/fruit1.jpg", tags:["frutal","dulce"],
-      sizes:[{name:"Chico",price:85,available:true},{name:"Mediano",price:100,available:true},{name:"Grande",price:115,available:true}],
-      milks:[], modes:[{name:"Fría",available:true},{name:"Caliente",available:true},{name:"Frappe",available:false},{name:"Con Tapioca",available:true},{name:"Con Crema",available:false}],
-      toppings:[], available:true },
-    { name: "Lemon Tea", desc: "Té refrescante de limón.", img: "images/fruit2.jpg", tags:["frutal","ácido"],
-      sizes:[{name:"Chico",price:85,available:true},{name:"Mediano",price:100,available:true},{name:"Grande",price:115,available:true}],
-      milks:[], modes:[{name:"Fría",available:true},{name:"Caliente",available:true},{name:"Frappe",available:false},{name:"Con Tapioca",available:false},{name:"Con Crema",available:false}],
-      toppings:[], available:true },
-    { name: "Apple Tea", desc: "Té con manzana.", img: "images/fruit3.jpg", tags:["frutal","dulce"],
-      sizes:[{name:"Chico",price:85,available:true},{name:"Mediano",price:100,available:true},{name:"Grande",price:115,available:true}],
-      milks:[], modes:[{name:"Fría",available:true},{name:"Caliente",available:true},{name:"Frappe",available:false},{name:"Con Tapioca",available:false},{name:"Con Crema",available:false}],
-      toppings:[], available:true },
-    { name: "Berry Tea", desc: "Té con frutos rojos.", img: "images/fruit4.jpg", tags:["frutal","dulce"],
-      sizes:[{name:"Chico",price:85,available:true},{name:"Mediano",price:100,available:true},{name:"Grande",price:115,available:true}],
-      milks:[], modes:[{name:"Fría",available:true},{name:"Caliente",available:true},{name:"Frappe",available:false},{name:"Con Tapioca",available:false},{name:"Con Crema",available:false}],
-      toppings:[], available:true },
-    { name: "Passion Tea", desc: "Té con maracuyá.", img: "images/fruit5.jpg", tags:["frutal","exótico"],
-      sizes:[{name:"Chico",price:90,available:true},{name:"Mediano",price:105,available:true},{name:"Grande",price:120,available:true}],
-      milks:[], modes:[{name:"Fría",available:true},{name:"Caliente",available:true},{name:"Frappe",available:false},{name:"Con Tapioca",available:false},{name:"Con Crema",available:false}],
-      toppings:[], available:true }
-  ],
-
-  "Snacks": [
-    { name: "Brownie", desc: "Brownie de chocolate.", img: "images/snack1.jpg", tags:["dulce","postre"],
-      sizes:[{name:"Único",price:55,available:true}], milks:[], modes:[], toppings:[], available:true },
-    { name: "Cheesecake", desc: "Pastel de queso.", img: "images/snack2.jpg", tags:["dulce","postre"],
-      sizes:[{name:"Único",price:65,available:true}], milks:[], modes:[], toppings:[], available:true },
-    { name: "Galletas", desc: "Galletas caseras.", img: "images/snack3.jpg", tags:["dulce","ligero"],
-      sizes:[{name:"Único",price:40,available:true}], milks:[], modes:[], toppings:[], available:true },
-    { name: "Muffin", desc: "Muffin de vainilla.", img: "images/snack4.jpg", tags:["dulce","pan"],
-      sizes:[{name:"Único",price:45,available:true}], milks:[], modes:[], toppings:[], available:true },
-    { name: "Croissant", desc: "Croissant de mantequilla.", img: "images/snack5.jpg", tags:["ligero","pan"],
-      sizes:[{name:"Único",price:50,available:true}], milks:[], modes:[], toppings:[], available:true }
-  ],
-
-  "Merch": [
-    { name: "Taza Logo", desc: "Taza oficial con logo.", img: "images/merch1.jpg", tags:["merch","taza"],
-      sizes:[{name:"Único",price:150,available:true}], milks:[], modes:[], toppings:[], available:true },
-    { name: "Playera Logo", desc: "Playera edición especial.", img: "images/merch2.jpg", tags:["merch","ropa"],
-      sizes:[{name:"Único",price:250,available:true}], milks:[], modes:[], toppings:[], available:true },
-    { name: "Termo Logo", desc: "Termo metálico con logo.", img: "images/merch3.jpg", tags:["merch","termo"],
-      sizes:[{name:"Único",price:300,available:true}], milks:[], modes:[], toppings:[], available:true },
-    { name: "Bolsa Tote", desc: "Bolsa tote con diseño.", img: "images/merch4.jpg", tags:["merch","bolsa"],
-      sizes:[{name:"Único",price:200,available:true}], milks:[], modes:[], toppings:[], available:true },
-    { name: "Gorra Logo", desc: "Gorra edición limitada.", img: "images/merch5.jpg", tags:["merch","gorra"],
-      sizes:[{name:"Único",price:220,available:true}], milks:[], modes:[], toppings:[], available:true }
-  ]
-};
-
-
       
-      // 👉 Aquí agregarás Milky Moo, Matcha, Milk Tea, etc.
+      "Geisha": [
+  { 
+    name: "Black Ice", 
+    desc: "Café Americano con jelly de cafe y helado de vainilla", 
+    img: "images/Coffe/BLACK.jpg", 
+    tags:["clásico","caliente"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available:true}, 
+      {name:"Almendra", available:true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:false}, 
+      {name:"Snow", available:false}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  },
+
+  { 
+    name: "Coffe Explosion", 
+    desc: "Café con una carga extra de cafe", 
+    img: "images/Coffe/EXPLOSION.jpg", 
+    tags:["clásico","caliente"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available:true}, 
+      {name:"Almendra", available:true}
+    ],
+    modes:[
+      {name:"Cold",available:false},
+      {name:"Milky",available:false}, 
+      {name:"Icy",available:true}, 
+      {name:"Snow", available:true}, 
+      {name:"Hot", available:false}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  },
+
+  { 
+    name: "Espresso Ice", 
+    desc: "Shot de cafe con helado de vainilla", 
+    img: "images/Coffe/ESPRESSOICE.jpg", 
+    tags:["clásico","caliente"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:false},
+      {name:"Deslactosada Light",available:false}, 
+      {name:"Avena", available:false}, 
+      {name:"Almendra", available:false}
+    ],
+    modes:[
+      {name:"Cold",available:false},
+      {name:"Milky",available:false}, 
+      {name:"Icy",available:false}, 
+      {name:"Snow", available:false}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  },
+
+  { 
+    name: "Viet Coffe", 
+    desc: "Cafe endulzado con leche condesada", 
+    img: "images/Coffe/VIETCOFFEE.jpg", 
+    tags:["clásico","caliente"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:false},
+      {name:"Deslactosada Light",available:false}, 
+      {name:"Avena", available:false}, 
+      {name:"Almendra", available:false}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:false}, 
+      {name:"Icy",available:false}, 
+      {name:"Snow", available:false}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  },
+
+  { 
+    name: "Manilla Night", 
+    desc: "Café con vainilla", 
+    img: "images/Coffe/NIGHT.jpg", 
+    tags:["clásico","caliente"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available:true}, 
+      {name:"Almendra", available:true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:true}, 
+      {name:"Snow", available:true}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  },
+
+  { 
+    name: "Moka Supreme", 
+    desc: "Café con chocolate", 
+    img: "images/Coffe/MOKA.jpg", 
+    tags:["clásico","caliente"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available:true}, 
+      {name:"Almendra", available:true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:true}, 
+      {name:"Snow", available:true}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  }
+],
+
+
+      "Milky Moo": [
+  { 
+    name: "Mango Milk", 
+    desc: "Bebida con pulpa de mango y leche", 
+    img: "images/MOO/MANGO.jpg", 
+    tags:["Nuevo","frio","leche","dulce"],
+    sizes:[
+      {name:"Chico",price:85,available:true},
+      {name:"Mediano",price:105,available:true},
+      {name:"Grande",price:135,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available:true}, 
+      {name:"Almendra", available:true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:false}, 
+      {name:"Snow", available:false}, 
+      {name:"Hot", available:false}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  },
+
+  { 
+    name: "Strawberry Milk", 
+    desc: "Bebida con pulpa de fresa y leche", 
+    img: "images/MOO/STRAWBERRY.jpg", 
+    tags:["Nuevo","frio","leche","dulce"],
+    sizes:[
+      {name:"Chico",price:85,available:true},
+      {name:"Mediano",price:105,available:true},
+      {name:"Grande",price:135,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available:true}, 
+      {name:"Almendra", available:true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:false}, 
+      {name:"Snow", available:false}, 
+      {name:"Hot", available:false}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  }
+],
+
+
+      "Samurai": [
+  { 
+    name: "Taro", 
+    desc: "Té cremoso de taro morado con leche.", 
+    img: "images/Samurai/TARO.jpg", 
+    tags:["clásico","dulce","samurai"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available: true}, 
+      {name:"Almendra", available: true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:true}, 
+      {name:"Snow", available:true}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  },
+
+  { 
+    name: "Chai", 
+    desc: "Infusión especiada con leche cremosa.", 
+    img: "images/Samurai/CHAI.jpg", 
+    tags:["clásico","especiado","samurai"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available: true}, 
+      {name:"Almendra", available: true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:true}, 
+      {name:"Snow", available:true}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  },
+
+  { 
+    name: "Pandan", 
+    desc: "Bebida dulce con extracto de pandan y leche.", 
+    img: "images/Samurai/PANDAN.jpg", 
+    tags:["exótico","dulce","samurai"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available: true}, 
+      {name:"Almendra", available: true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:true}, 
+      {name:"Snow", available:true}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  },
+
+  { 
+    name: "Thai", 
+    desc: "Té tailandés con notas dulces y cremosas.", 
+    img: "images/Samurai/THAI.jpg", 
+    tags:["clásico","exótico","samurai"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available: true}, 
+      {name:"Almendra", available: true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:true}, 
+      {name:"Snow", available:true}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  },
+
+  { 
+    name: "Royale", 
+    desc: "Bebida premium de la casa Samurai.", 
+    img: "images/Samurai/ROYALE.jpg", 
+    tags:["especial","premium","samurai"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available: true}, 
+      {name:"Almendra", available: true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:true}, 
+      {name:"Snow", available:true}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  }
+],
+
+      "Matcha Lover": [
+  { 
+    name: "Matcha", 
+    desc: "Té verde matcha clásico con leche.", 
+    img: "images/Matcha/MATCHA.jpg", 
+    tags:["clásico","matcha","verde","samurai"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available:true}, 
+      {name:"Almendra", available:true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:true}, 
+      {name:"Snow", available:true}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  },
+
+  { 
+    name: "Matcha Strawberry", 
+    desc: "Té matcha con leche y fresa natural.", 
+    img: "images/Matcha/STRAW.jpg", 
+    tags:["matcha","frutal","dulce"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available:true}, 
+      {name:"Almendra", available:true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:false}, 
+      {name:"Snow", available:false}, 
+      {name:"Hot", available:false}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  },
+
+  { 
+    name: "Matcha Ice", 
+    desc: "Té matcha con leche y bola de helado.", 
+    img: "images/Matcha/ICE.jpg", 
+    tags:["matcha","helado","dulce"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available:true}, 
+      {name:"Almendra", available:true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:true}, 
+      {name:"Snow", available:true}, 
+      {name:"Hot", available:false}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  }
+],
+
+      "Sumo": [
+  { 
+    name: "Chocolatl", 
+    desc: "Bebida cremosa de chocolate estilo tradicional.", 
+    img: "images/Sumo/CHOCOLATL.jpg", 
+    tags:["sumo","chocolate","dulce"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available:true}, 
+      {name:"Almendra", available:true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:true}, 
+      {name:"Snow", available:true}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  },
+
+  { 
+    name: "Vainilla Sky", 
+    desc: "Suave bebida de vainilla con leche.", 
+    img: "images/Sumo/VAINILLA.jpg", 
+    tags:["sumo","vainilla","dulce"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available:true}, 
+      {name:"Almendra", available:true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:true}, 
+      {name:"Snow", available:true}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  },
+
+  { 
+    name: "Cookies & Cream", 
+    desc: "Bebida cremosa con galletas Oreo trituradas.", 
+    img: "images/Sumo/COOKIES.jpg", 
+    tags:["sumo","galleta","dulce"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available:true}, 
+      {name:"Almendra", available:true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:true}, 
+      {name:"Snow", available:true}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  },
+
+  { 
+    name: "Coco", 
+    desc: "Bebida refrescante y cremosa de coco natural.", 
+    img: "images/Sumo/COCO.jpg", 
+    tags:["sumo","coco","dulce","refrescante"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available:true}, 
+      {name:"Almendra", available:true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:true}, 
+      {name:"Snow", available:true}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  }
+],
+
+      "Fruit Tea": [
+  { 
+    name: "Berry Blast", 
+    desc: "Té refrescante con frutos rojos y un toque dulce.", 
+    img: "images/Fruit/BERRYBLAST.jpg", 
+    tags:["fruta","frutos rojos","dulce"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available:true}, 
+      {name:"Almendra", available:true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:true}, 
+      {name:"Snow", available:true}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  },
+
+  { 
+    name: "Chinese Forest Girl", 
+    desc: "Infusión herbal fresca inspirada en sabores orientales.", 
+    img: "images/Fruit/FORESTGIRL.jpg", 
+    tags:["exótico","herbal","fruta"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available:true}, 
+      {name:"Almendra", available:true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:true}, 
+      {name:"Snow", available:true}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  },
+
+  { 
+    name: "Fresa", 
+    desc: "Té con fresas naturales, refrescante y dulce.", 
+    img: "images/Fruit/FRESA.jpg", 
+    tags:["fruta","fresa","dulce"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available:true}, 
+      {name:"Almendra", available:true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:true}, 
+      {name:"Snow", available:true}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  },
+
+  { 
+    name: "Lychee", 
+    desc: "Té afrutado con exótico sabor a lychee.", 
+    img: "images/Fruit/LYCHEE.jpg", 
+    tags:["fruta","lychee","dulce"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available:true}, 
+      {name:"Almendra", available:true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:true}, 
+      {name:"Snow", available:true}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  },
+
+  { 
+    name: "Mango", 
+    desc: "Té refrescante con mango", 
+    img: "images/Fruit/MANGO.jpg", 
+    tags:["fruta","mango","dulce"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available:true}, 
+      {name:"Almendra", available:true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:true}, 
+      {name:"Snow", available:true}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  },
+
+  { 
+    name: "Maracuyá", 
+    desc: "Té tropical con sabor a maracuyá.", 
+    img: "images/Fruit/MARACUYA.jpg", 
+    tags:["fruta","maracuyá","dulce"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available:true}, 
+      {name:"Almendra", available:true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:true}, 
+      {name:"Snow", available:true}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  },
+
+  { 
+    name: "Toronja", 
+    desc: "Té cítrico y refrescante con toronja.", 
+    img: "images/Fruit/TORONJA.jpg", 
+    tags:["fruta","cítrico","refrescante"],
+    sizes:[
+      {name:"Chico",price:75,available:true},
+      {name:"Mediano",price:90,available:true},
+      {name:"Grande",price:105,available:true}
+    ],
+    milks:[
+      {name:"Light",available:true},
+      {name:"Deslactosada Light",available:true}, 
+      {name:"Avena", available:true}, 
+      {name:"Almendra", available:true}
+    ],
+    modes:[
+      {name:"Cold",available:true},
+      {name:"Milky",available:true}, 
+      {name:"Icy",available:true}, 
+      {name:"Snow", available:true}, 
+      {name:"Hot", available:true}
+    ],
+    toppings:[
+      {name:"Popping Bobba Blueberry", available:true},
+      {name:"Popping Bobba Strawberry", available:true}, 
+      {name:"Popping Bobba Lychee", available:true},
+      {name:"Jelly de Lychee", available:true}, 
+      {name:"Jelly Coffe", available:true}, 
+      {name:"Helado", available:true}
+    ], 
+    available:true 
+  }
+],
+
+
+      "Snacks": [
+  { 
+    name: "Brauni de Chocolate", 
+    desc: "Brownie casero de chocolate intenso.", 
+    img: "images/Snacks/BRAUNI.jpg", 
+    tags:["dulce","postre"],
+    sizes:[{name:"Único",price:55,available:true}],
+    milks:[], modes:[], toppings:[], 
+    available:true 
+  },
+
+  { 
+    name: "Cake Boba de Taro", 
+    desc: "Pastelito esponjoso de taro con topping de boba.", 
+    img: "images/Snacks/CAKE.jpg", 
+    tags:["dulce","postre","taro"],
+    sizes:[{name:"Único",price:65,available:true}],
+    milks:[], modes:[], toppings:[], 
+    available:true 
+  },
+
+  { 
+    name: "Croissant de Chocolate", 
+    desc: "Croissant relleno de chocolate turin.", 
+    img: "images/Snacks/CROISSANT.jpg", 
+    tags:["pan","dulce"],
+    sizes:[{name:"Único",price:50,available:true}],
+    milks:[], modes:[], toppings:[], 
+    available:true 
+  },
+
+  { 
+    name: "Edamames", 
+    desc: "Vainas de soya salteadas con sal de mar.", 
+    img: "images/Snacks/EDAMAMES.jpg", 
+    tags:["salado","ligero"],
+    sizes:[{name:"Único",price:45,available:true}],
+    milks:[], modes:[], toppings:[], 
+    available:true 
+  },
+
+  { 
+    name: "Envuelto de Espinacas", 
+    desc: "Rollito de espinacas con queso y especias.", 
+    img: "images/Snacks/ESPINACAS.jpg", 
+    tags:["salado","vegetariano"],
+    sizes:[{name:"Único",price:60,available:true}],
+    milks:[], modes:[], toppings:[], 
+    available:true 
+  },
+
+  { 
+    name: "Envuelto de Manzana con Canela", 
+    desc: "Rollito dulce de manzana con toque de canela.", 
+    img: "images/Snacks/MANZANA.jpg", 
+    tags:["dulce","fruta"],
+    sizes:[{name:"Único",price:65,available:true}],
+    milks:[], modes:[], toppings:[], 
+    available:true 
+  },
+
+  { 
+    name: "Envuelto Poblano", 
+    desc: "Rollito relleno de chile poblano y queso.", 
+    img: "images/Snacks/POBLANO.jpg", 
+    tags:["salado","mexicano"],
+    sizes:[{name:"Único",price:65,available:true}],
+    milks:[], modes:[], toppings:[], 
+    available:true 
+  },
+
+  { 
+    name: "Pocky", 
+    desc: "Palitos de galleta cubiertos de chocolate japonés.", 
+    img: "images/Snacks/POCKY.jpg", 
+    tags:["dulce","japonés"],
+    sizes:[{name:"Único",price:40,available:true}],
+    milks:[], modes:[], toppings:[], 
+    available:true 
+  },
+
+  { 
+    name: "Pretzel", 
+    desc: "Pretzel horneado con relleno de queso crema.", 
+    img: "images/Snacks/PRETZEL.jpg", 
+    tags:["salado","pan"],
+    sizes:[{name:"Único",price:55,available:true}],
+    milks:[], modes:[], toppings:[], 
+    available:true 
+  },
+
+  { 
+    name: "Muchipanes", 
+    desc: "Panecillos estilo japonés suaves y esponjosos.", 
+    img: "images/Snacks/MUCHIPANES.jpg", 
+    tags:["pan","japonés","dulce"],
+    sizes:[{name:"Único",price:45,available:true}],
+    milks:[], modes:[{name:"taro", available:true}], toppings:[], 
+    available:true 
+  }
+]
+
     };
 
-    // Render dinámico del menú
-    const container = document.getElementById("menu-container");
-    for (const section in menuData) {
-      const sectionHTML = `
-        <div class="menu-section">
-          <h2>${section}</h2>
-          <div class="swiper ${section}">
-            <div class="swiper-wrapper">
-              ${menuData[section].map(item => `
-                <div class="swiper-slide drink-card ${item.available ? "" : "unavailable"}" onclick='${item.available ? `openModal(${JSON.stringify(item)})` : ""}'>
-                  <img src="${item.img}" alt="${item.name}">
-                  <h3>${item.name}</h3>
-                  <p>${item.available ? "" : "No disponible"}</p>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        </div>
-      `;
-      container.innerHTML += sectionHTML;
-    }
+    const menuDiv = document.getElementById("menu");
+    const modal = document.getElementById("modal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalImg = document.getElementById("modalImg");
+    const modalDesc = document.getElementById("modalDesc");
+    const modalSizes = document.getElementById("modalSizes");
+    const modalMilks = document.getElementById("modalMilks");
+    const modalModes = document.getElementById("modalModes");
+    const modalToppings = document.getElementById("modalToppings");
+    const modalClose = document.getElementById("modalClose");
 
-    // Inicializar Swipers
-    setTimeout(() => {
-      document.querySelectorAll('.swiper').forEach(swiperEl => {
-        new Swiper(swiperEl, { slidesPerView: 2.3, spaceBetween: 10 });
-      });
-    }, 100);
+    function renderMenu(filter="") {
+      menuDiv.innerHTML = "";
+      Object.keys(menuData).forEach(cat => {
+        const section = document.createElement("section");
+        section.innerHTML = `<h2>${cat}</h2><div class="products"></div>`;
+        const productsDiv = section.querySelector(".products");
 
-    // Modal
-    function openModal(drink) {
-      document.getElementById("modalTitle").innerText = drink.name;
-      document.getElementById("modalDesc").innerText = drink.desc;
-      document.getElementById("modalImage").src = drink.img;
+        menuData[cat].forEach(item => {
+          if (!item.available) return;
+          if (filter && !item.tags.join(" ").toLowerCase().includes(filter.toLowerCase())) return;
 
-      // Tamaños
-      const sizesDiv = document.getElementById("modalSizes");
-      sizesDiv.innerHTML = "";
-      drink.sizes.forEach(s => {
-        sizesDiv.innerHTML += `
-          <label class="${s.available ? "" : "disabled-label"}">
-            <input type="radio" name="size" ${s.available ? "" : "disabled"}> 
-            ${s.name} - $${s.price} ${!s.available ? "(No disponible)" : ""}
-          </label><br>
-        `;
-      });
-
-      // Leches
-      const milksDiv = document.getElementById("modalMilks");
-      milksDiv.innerHTML = "";
-      drink.milks.forEach(m => {
-        milksDiv.innerHTML += `
-          <label class="${m.available ? "" : "disabled-label"}">
-            <input type="radio" name="milk" ${m.available ? "" : "disabled"}> 
-            ${m.name} ${!m.available ? "(No disponible)" : ""}
-          </label><br>
-        `;
-      });
-
-      // Modalidades
-      const modesDiv = document.getElementById("modalModes");
-      modesDiv.innerHTML = "";
-      drink.modes.forEach(mo => {
-        modesDiv.innerHTML += `
-          <label class="${mo.available ? "" : "disabled-label"}">
-            <input type="radio" name="mode" ${mo.available ? "" : "disabled"}> 
-            ${mo.name} ${!mo.available ? "(No disponible)" : ""}
-          </label><br>
-        `;
-      });
-
-      // Toppings
-      const toppingsDiv = document.getElementById("modalToppings");
-      toppingsDiv.innerHTML = "";
-      drink.toppings.forEach(t => {
-        toppingsDiv.innerHTML += `
-          <label class="${t.available ? "" : "disabled-label"}">
-            <input type="checkbox" ${t.available ? "" : "disabled"}> 
-            ${t.name} +$${t.price} ${!t.available ? "(No disponible)" : ""}
-          </label><br>
-        `;
-      });
-
-      document.getElementById("drinkModal").style.display = "flex";
-    }
-
-    function closeModal() {
-      document.getElementById("drinkModal").style.display = "none";
-    }
-
-    // Buscador con "IA fake"
-    function buscarBebidas() {
-      let keyword = document.getElementById("searchInput").value.toLowerCase();
-      let resultados = [];
-
-      if (keyword.length < 2) { document.getElementById("recomendaciones").innerHTML = ""; return; }
-
-      for (const familia in menuData) {
-        menuData[familia].forEach(item => {
-          if (item.tags && item.tags.some(tag => tag.includes(keyword))) {
-            resultados.push(item);
-          }
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <img src="${item.img}" alt="${item.name}">
+            <h3>${item.name}</h3>
+          `;
+          card.onclick = () => openModal(item);
+          productsDiv.appendChild(card);
         });
-      }
 
-      const recDiv = document.getElementById("recomendaciones");
-      if (resultados.length === 0) {
-        recDiv.innerHTML = `<div class="menu-section"><h2>Sin resultados 😢</h2></div>`;
-      } else {
-        recDiv.innerHTML = `
-          <div class="menu-section">
-            <h2>Recomendaciones para "${keyword}"</h2>
-            <div class="swiper recomendadas">
-              <div class="swiper-wrapper">
-                ${resultados.map(item => `
-                  <div class="swiper-slide drink-card" onclick='openModal(${JSON.stringify(item)})'>
-                    <img src="${item.img}" alt="${item.name}">
-                    <h3>${item.name}</h3>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-          </div>
-        `;
-        new Swiper(".recomendadas", { slidesPerView: 2.3, spaceBetween: 10 });
-      }
+        menuDiv.appendChild(section);
+      });
     }
+
+    function openModal(drink) {
+      modalTitle.textContent = drink.name;
+      modalImg.src = drink.img;
+      modalDesc.textContent = drink.desc;
+
+      modalSizes.innerHTML = "<h3>Tamaños</h3>" + drink.sizes.map(s =>
+        `<label class="${s.available?"":"disabled-label"}">
+           <input type="radio" name="size" ${s.available?"":"disabled"}> ${s.name} $${s.price}
+         </label><br>`).join("");
+
+      modalMilks.innerHTML = drink.milks.length ? "<h3>Leche</h3>" + drink.milks.map(m =>
+        `<label class="${m.available?"":"disabled-label"}">
+           <input type="radio" name="milk" ${m.available?"":"disabled"}> ${m.name}
+         </label><br>`).join("") : "";
+
+      modalModes.innerHTML = drink.modes.length ? "<h3>Modalidad</h3>" + drink.modes.map(mo =>
+        `<label class="${mo.available?"":"disabled-label"}">
+           <input type="radio" name="mode" ${mo.available?"":"disabled"}> ${mo.name}
+         </label><br>`).join("") : "";
+
+      modalToppings.innerHTML = drink.toppings.length ? "<h3>Toppings</h3>" + drink.toppings.map(t =>
+        `<label class="${t.available?"":"disabled-label"}">
+           <input type="checkbox" ${t.available?"":"disabled"}> ${t.name} (+$${t.price})
+         </label><br>`).join("") : "";
+
+      modal.style.display = "flex";
+    }
+
+    modalClose.onclick = () => modal.style.display = "none";
+    window.onclick = (e) => { if (e.target==modal) modal.style.display = "none"; };
+
+    document.getElementById("search").addEventListener("input", e => renderMenu(e.target.value));
+
+    renderMenu();
   </script>
 </body>
 </html>
+
